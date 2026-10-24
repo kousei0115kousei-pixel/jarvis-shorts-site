@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ログイン完了 | JARVIS Shorts</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --bg: #f7f7f9; --fg: #1d1d22; --muted: #5d5d6b; --card: #fff; --line: #e3e3ea; --accent: #5b4bd6; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #15151a; --fg: #ececf1; --muted: #a3a3b2; --card: #1f1f26; --line: #33333d; --accent: #9d92ff; } }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.8 -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; }
+  code { display: block; word-break: break-all; background: rgba(127, 127, 127, 0.12); padding: 10px 12px; border-radius: 8px; font-size: 13px; }
+  button { margin-top: 12px; padding: 8px 18px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+  .muted { color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <h1 style="font-size:22px;margin:0 0 8px">ログインが完了しました</h1>
+    <p id="msg">このページのURLをコピーして、ターミナルに貼り付けてください。</p>
+    <code id="url"></code>
+    <button id="copy">URLをコピー</button>
+    <p class="muted">このURLには一度だけ使えるコードが含まれています。他の人には見せないでください。</p>
+  </div>
+</main>
+<script>
+  const url = location.href;
+  document.getElementById('url').textContent = url;
+  if (!new URLSearchParams(location.search).get('code')) {
+    document.getElementById('msg').textContent = 'コードが見つかりません。ログインと許可をやり直してください。';
+  }
+  document.getElementById('copy').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(url); document.getElementById('copy').textContent = 'コピーしました'; }
+    catch { document.getElementById('copy').textContent = 'URLを選択してコピーしてください'; }
+  });
+</script>
+</body>
+</html>
